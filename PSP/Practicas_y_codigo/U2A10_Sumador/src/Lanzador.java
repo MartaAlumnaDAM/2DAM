@@ -1,8 +1,10 @@
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 /*
@@ -36,24 +38,23 @@ public class Lanzador {
             
                 //ProcessBuilder pb = new ProcessBuilder("java", "appr.U2A10_Sumador");
                 ProcessBuilder pb = new ProcessBuilder("java", "U2A11_Sumador2");
-                pb.directory(new java.io.File("build/classes"));
+                pb.directory(new File("build/classes"));
                 
                 Process proceso = pb.start();
                 
-                try (BufferedWriter escritor = new BufferedWriter(
-                        new OutputStreamWriter(proceso.getOutputStream()))) {
-                            escritor.write(num1);
-                            escritor.newLine();
-                            escritor.write(num2);
-                            escritor.newLine();
+                try (PrintWriter escritor = new PrintWriter (new BufferedWriter(
+                        new OutputStreamWriter(proceso.getOutputStream())))) {
+                            escritor.println(num1);
+                            escritor.println(num2);
                             escritor.flush();
                 }
                 
                 try (BufferedReader lector = new BufferedReader(
                         new InputStreamReader(proceso.getInputStream()))) {
                     String linea;
+
                     while ((linea = lector.readLine()) != null) {
-                        System.out.println(linea);
+                        System.out.println("Linea + " + linea);
                     }
                 }
                 
